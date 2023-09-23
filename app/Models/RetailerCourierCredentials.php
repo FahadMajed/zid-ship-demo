@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class RetailerCourierCredentials extends Pivot
 {
+
+    use HasFactory;
     protected $table = 'retailer_courier_credentials';
 
     public $incrementing = true;

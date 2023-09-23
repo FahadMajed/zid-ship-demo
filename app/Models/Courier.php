@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Courier extends Model
 {
+
+    use HasFactory;
     protected $fillable = [
-        'name', 'max_capacity', 'supports_cancellation', 'current_usage'
+        'name',
+        'max_capacity',
+        'supports_cancellation',
+        'current_usage'
     ];
 
     public function routes()

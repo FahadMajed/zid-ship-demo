@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Factories;
+namespace App\Services\Couriers\Factory;
 
 use App\Services\Couriers\Integrations\Aramex;
 use App\Services\Couriers\Integrations\FedEx;

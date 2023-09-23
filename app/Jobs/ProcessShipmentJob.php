@@ -2,15 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Factories\CourierFactory;
-use App\Models\Package;
-use App\Models\Retailer;
 use App\Models\RetailerCourierCredentials;
 use App\Models\Shipment;
 use App\Repositories\ShipmentsRepository;
+use App\Services\Couriers\Factory\CourierFactory;
 use CreateShipmentDto;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;

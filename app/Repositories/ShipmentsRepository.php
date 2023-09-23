@@ -6,22 +6,29 @@ use App\Models\Shipment;
 use App\Models\Courier;
 use App\Models\DeliveryType;
 use App\Models\Pricing;
-
+use App\Models\Retailer;
 
 class ShipmentsRepository
 {
-    public function createPendingShipment($data, $request, $packageId, $retailerId): Shipment
+    public function createPendingShipment($shipmentData, $packageId, Retailer $retailer): Shipment
     {
+        $customer = $shipmentData['customer'];
 
-        $courier = Courier::whereHas('courier_routes', function ($query) use ($data) {
-            $query->where('origin', $data['origin'])
-                ->where('destination', $data['destination']);
+        $courier = Courier::whereHas('routes', function ($query) use ($customer, $retailer) {
+            $query->where('origin', $retailer->city)
+                ->where('destination', $customer['city']);
         })->whereColumn('max_capacity', '>', 'current_usage')
             ->first();
 
-        $deliveryType = DeliveryType::where('delivery_type', $data['delivery_type']);
+        $courierRoute = $courier->routes()->where('origin', $retailer->city)
+            ->where('destination', $customer['city'])
+            ->first();
 
-        $price = Pricing::where('courier_route_id', $courier->id)
+        $deliveryType = DeliveryType::where('name', $shipmentData['delivery_type'])->first();
+
+
+
+        $price = Pricing::where('courier_route_id', $courierRoute->id)
             ->where('delivery_type_id', $deliveryType->id)
             ->first();
 
@@ -31,15 +38,20 @@ class ShipmentsRepository
 
         $shipment = Shipment::create([
             'courier_id' => $courier->id,
-            'courier_route_id' => $courier->id,
-            'delivery_type_id' => $data['delivery_type_id'],
+            'courier_route_id' => $courierRoute->id,
+            'delivery_type_id' => $deliveryType->id,
             'status' => 'Pending',
             'price' => $price->price,
             'package_id' => $packageId,
-            'retailer_id' => $retailerId
+            'retailer_id' => $retailer->id,
+            'customer_phone' => $customer['phone'],
+            'customer_name' => $customer['name'],
+            'customer_city' => $customer['city'],
+            'customer_email' => $customer['email'],
+            'customer_address' => $customer['address'],
         ]);
 
-        $shipment->load('courier', 'courier_route', 'delivery_type', 'retailer', 'package');
+        $shipment->load('courier', 'courierRoute', 'deliveryType', 'retailer', 'package');
 
         return $shipment;
     }
