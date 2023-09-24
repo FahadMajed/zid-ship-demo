@@ -56,7 +56,7 @@ class ShipmentService
 
                 $retailer = $this->retailersRepository->findByName($retailerName);
 
-                $courierResult = $this->couriersRepository->getFirstAvailableCourierWithRoute($customer['city'], $retailer->city);
+                $courierResult = $this->couriersRepository->getFirstAvailableCourierWithRoute($retailer->city, $customer['city']);
 
                 $priceResult = $this->pricingsRepository->getPriceForRoute($courierResult['route_id'], $shipmentData['delivery_type']);
 

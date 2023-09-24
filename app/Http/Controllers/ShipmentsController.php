@@ -22,6 +22,7 @@ class ShipmentsController extends Controller
 
     public function createBulkShipment(ShipmentRequest $request)
     {
+
         $shipmentsData = $request->all()['shipments'];
         $retailerName = $request['retailer_name'];
 
