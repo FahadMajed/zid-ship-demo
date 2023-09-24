@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'courier_id',
         'courier_route_id',

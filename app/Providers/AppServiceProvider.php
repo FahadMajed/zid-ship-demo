@@ -7,6 +7,7 @@ use App\Repositories\PackagesRepository;
 use App\Repositories\PricingsRepository;
 use App\Repositories\RetailersRepository;
 use App\Repositories\ShipmentsRepository;
+use App\Services\Couriers\Factory\CourierFactory;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,8 +36,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CouriersRepository::class, function ($app) {
             return new CouriersRepository();
         });
-    }
 
+        $this->app->singleton(CourierFactory::class, function ($app) {
+            return new CourierFactory();
+        });
+    }
     /**
      * Bootstrap any application services.
      */

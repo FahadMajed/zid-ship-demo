@@ -23,18 +23,22 @@ class ShipmentService
     protected CouriersRepository $couriersRepository;
     protected PricingsRepository $pricingsRepository;
 
+    protected CourierFactory $courierFactory;
+
     public function __construct(
         ShipmentsRepository $shipmentsRepository,
         RetailersRepository $retailersRepository,
         PackagesRepository $packageRepository,
         CouriersRepository $couriersRepository,
         PricingsRepository $pricingsRepository,
+        CourierFactory $courierFactory,
     ) {
         $this->shipmentsRepository = $shipmentsRepository;
         $this->retailersRepository = $retailersRepository;
         $this->packageRepository = $packageRepository;
         $this->pricingsRepository = $pricingsRepository;
         $this->couriersRepository = $couriersRepository;
+        $this->courierFactory = $courierFactory;
     }
 
     public function createBulkShipment(array $shipmentsData, string $retailerName): array
@@ -107,11 +111,12 @@ class ShipmentService
             throw new CourierDisallowedCancellation();
         }
 
-        $courierService = CourierFactory::create($shipment->courier->name);
+        $courier = $this->courierFactory->create($shipment->courier->name);
 
-        $result =  $courierService->cancelShipment($shipment->tracking_number);
+        $result =  $courier->cancelShipment($shipment->tracking_number);
 
         if ($result['cancelled'] == true) {
+            //TODO PUBLISH THE EVENT USING A MESSAGE BROKER USING THE ORDER ID AND THE STATUS
             $this->shipmentsRepository->updateShipmentStatus($shipmentId, 'Cancelled');
         } else {
             throw new CancellationException($result['message']);

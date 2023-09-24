@@ -7,7 +7,7 @@ use App\Services\Couriers\Integrations\FedEx;
 
 class CourierFactory
 {
-    public static function create($courierName)
+    public function create($courierName)
     {
         switch ($courierName) {
             case 'aramex':

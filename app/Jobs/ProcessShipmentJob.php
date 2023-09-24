@@ -29,10 +29,10 @@ class ProcessShipmentJob implements ShouldQueue
         $this->retailerCourierCredentials = $retailerCourierCredentials;
     }
 
-    public function handle(ShipmentsRepository $shipmentsRepository)
+    public function handle(ShipmentsRepository $shipmentsRepository, CourierFactory $courierFactory)
     {
 
-        $courier = CourierFactory::create($this->shipment->courier->name);
+        $courier = $courierFactory->create($this->shipment->courier->name);
 
         $shipmentDto = new CreateShipmentDto($this->shipment, $this->retailerCourierCredentials);
 
