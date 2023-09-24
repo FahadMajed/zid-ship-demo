@@ -39,8 +39,8 @@ class ShipmentsController extends Controller
     public function handleShipmentEvents(ShipmentEventRequest $request)
     {
 
-        $shipmentId = $request->input('shipment_id');
-        $orderId = $request->input('order_id');
+        $shipmentId = $request->route('shipment_id');
+        $orderId = $request->route('order_id');
 
         $unifiedStatus = $request->attributes->get('unified_status');
 
@@ -54,9 +54,9 @@ class ShipmentsController extends Controller
     public function getShipmentStatus(Request $request)
     {
 
-        $shipmentId = $request->input('shipment_id');
+        $shipmentId = $request->route('shipment_id');
 
-        $status = $this->shipmentService->getStatusFor($shipmentId,);
+        $status = $this->shipmentService->getStatusFor($shipmentId);
 
         return response()->json(['status' => $status], Response::HTTP_OK);
     }
@@ -64,7 +64,7 @@ class ShipmentsController extends Controller
     public function getShipment(Request $request)
     {
 
-        $shipmentId = $request->input('shipment_id');
+        $shipmentId = $request->route('shipment_id');
 
         $shipment = $this->shipmentService->getShipment($shipmentId,);
 
