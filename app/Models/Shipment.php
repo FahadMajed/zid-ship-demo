@@ -19,6 +19,7 @@ class Shipment extends Model
         'waybill_url',
         //TODO MIGRATE
         'label_url',
+        //TODO MIGRATE
         'order_id',
         'tracking_number',
         'status',
