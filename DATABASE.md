@@ -5,55 +5,63 @@
 ### Models:
 
 #### 1. Courier
-- **Attributes**: `name`, `max_capacity`, `supports_cancellation`, `current_usage`
-- **Relationships**:
-  - Has many `CourierRoute`
-  - Has many `Shipment`
-  - Belongs to many `Retailer` with pivot attributes `api_key`, `account_id`
+
+-   **Attributes**: `name`, `max_capacity`, `supports_cancellation`, `current_usage`
+-   **Relationships**:
+    -   Has many `CourierRoute`
+    -   Has many `Shipment`
+    -   Belongs to many `Retailer` with pivot attributes `api_key`, `account_id`
 
 #### 2. CourierRoute
-- **Attributes**: `courier_id`, `origin`, `destination`
-- **Relationships**:
-  - Belongs to `Courier`
-  - Has many `Pricing`
-  - Has many `Shipment`
+
+-   **Attributes**: `courier_id`, `origin`, `destination`
+-   **Relationships**:
+    -   Belongs to `Courier`
+    -   Has many `Pricing`
+    -   Has many `Shipment`
 
 #### 3. DeliveryType
-- **Attributes**: `name`
-- **Relationships**:
-  - Has many `Pricing`
-  - Has many `Shipment`
+
+-   **Attributes**: `name`
+-   **Relationships**:
+    -   Has many `Pricing`
+    -   Has many `Shipment`
 
 #### 4. Package
-- **Attributes**: `height`, `width`, `length`, `weight`, `description`
-- **Relationships**:
-  - Has one `Shipment`
+
+-   **Attributes**: `height`, `width`, `length`, `weight`, `description`
+-   **Relationships**:
+    -   Has one `Shipment`
 
 #### 5. Pricing
-- **Attributes**: `courier_route_id`, `delivery_type_id`, `price`
-- **Relationships**:
-  - Belongs to `CourierRoute`
-  - Belongs to `DeliveryType`
+
+-   **Attributes**: `courier_route_id`, `delivery_type_id`, `price`
+-   **Relationships**:
+    -   Belongs to `CourierRoute`
+    -   Belongs to `DeliveryType`
 
 #### 6. Retailer
-- **Attributes**: `name`, `address`, `phone`, `city`, `email`
-- **Relationships**:
-  - Belongs to many `Courier` with pivot attributes `api_key`, `account_id`
-  - Has many `Shipments`
+
+-   **Attributes**: `name`, `address`, `phone`, `city`, `email`
+-   **Relationships**:
+    -   Belongs to many `Courier` with pivot attributes `api_key`, `account_id`
+    -   Has many `Shipments`
 
 #### 7. RetailerCourierCredentials (Pivot Model)
-- **Attributes**: `retailer_id`, `courier_id`, `api_key`, `account_id`
+
+-   **Attributes**: `retailer_id`, `courier_id`, `api_key`, `account_id`
 
 #### 8. Shipment
-- **Attributes**: `courier_id`, `courier_route_id`, `delivery_type_id`, `waybill_url`, `label_url`, `order_id`, `tracking_number`, `status`, `timestamp`, `retailer_id`, `package_id`, `customer_phone`, `customer_city`, `customer_email`, `customer_address`, `price`
-- **Relationships**:
-  - Belongs to `Courier`
-  - Belongs to `CourierRoute`
-  - Belongs to `DeliveryType`
-  - Belongs to `Retailer`
-  - Belongs to `Package`
-  
-this table is intentionaly denormilzied (the customer) because the customer data is comming from outside (the retailer app), and each order may have its own address.
+
+-   **Attributes**: `courier_id`, `courier_route_id`, `delivery_type_id`, `waybill_url`, `label_url`, `order_id`, `tracking_number`, `status`, `timestamp`, `retailer_id`, `package_id`, `customer_phone`, `customer_city`, `customer_email`, `customer_address`, `price`
+-   **Relationships**:
+    -   Belongs to `Courier`
+    -   Belongs to `CourierRoute`
+    -   Belongs to `DeliveryType`
+    -   Belongs to `Retailer`
+    -   Belongs to `Package`
+
+this table is intentional demoralized (the customer) because the customer data is coming from outside (the retailer app), and each order may have its own address.
 
 ## Indexing Strategy for ZidShip
 
@@ -62,10 +70,12 @@ To optimize the performance of database queries, especially for a system like Zi
 ### Indexes:
 
 1. **CourierRoute Table**:
+
     - Columns: `origin`, `destination`.
     - Reason: The query filters `CourierRoute` based on both `origin` and `destination`. A composite index on these columns will speed up this lookup.
 
 2. **Courier Table**:
+
     - Columns: `max_capacity`, `current_usage`.
     - Reason: The query filters couriers where `max_capacity` is greater than `current_usage`. Indexing these columns will optimize this comparison.
 
