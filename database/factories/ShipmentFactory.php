@@ -24,6 +24,7 @@ class ShipmentFactory extends Factory
             'price' => 1,
             'package_id' => 1,
             'retailer_id' => 1,
+            'order_id' => 1,
             'customer_phone' => fake()->unique()->name(),
             'customer_name' => fake()->unique()->name(),
             'customer_city' => fake()->unique()->name(),
