@@ -3,15 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Shipment;
-use App\Models\Courier;
-use App\Models\DeliveryType;
-use App\Models\Pricing;
-use App\Models\Retailer;
+
 
 class ShipmentsRepository
 {
     public function createPendingShipment($customer, $packageId, $retailerId, $courierId, $deliveryTypeId, $routeId, $price): Shipment
     {
+
         $shipment = Shipment::create([
             'courier_id' => $courierId,
             'courier_route_id' => $routeId,

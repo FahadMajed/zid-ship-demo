@@ -39,7 +39,7 @@ class ShipmentService
         $shipments = [];
 
         foreach ($shipmentsData as $shipmentData) {
-            $data = null;
+            $shipment = null;
             $error = null;
 
             try {
@@ -69,7 +69,7 @@ class ShipmentService
             }
 
             $shipments[] = [
-                'data' => $data,
+                'data' => ['shipment_id' => $shipment->id, 'status' => $shipment->status],
                 'error' => $error
             ];
         }

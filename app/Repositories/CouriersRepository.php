@@ -25,7 +25,7 @@ class CouriersRepository
 
         return [
             'courier' => $courier,
-            'route_id' => $route
+            'route_id' => $route->id
         ];
     }
 

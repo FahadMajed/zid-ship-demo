@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\CouriersRepository;
 use App\Repositories\PackagesRepository;
+use App\Repositories\PricingsRepository;
 use App\Repositories\RetailersRepository;
 use App\Repositories\ShipmentsRepository;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +26,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(PackagesRepository::class, function ($app) {
             return new PackagesRepository();
+        });
+
+        $this->app->singleton(PricingsRepository::class, function ($app) {
+            return new PricingsRepository();
+        });
+
+        $this->app->singleton(CouriersRepository::class, function ($app) {
+            return new CouriersRepository();
         });
     }
 
