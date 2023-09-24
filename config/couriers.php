@@ -3,7 +3,18 @@
 return [
     'fedex' => [
         'base_url' => env('FEDEX_BASE_URL', 'https://api.fedex.com/'),
-        'auth_key' => env('FEDEX_AUTH_KEY', 'default_auth_key')
+        'status_path' => 'output.shipmentStatus',
+        'status_mappings' => [
+            'picked up' => 'In Transit',
+            'on truck for delivery' => 'Out for Delivery',
+            'delivered' => 'Delivered',
+        ],
+        'delivery_type_mappings' => [
+            'PRIORITY_OVERNIGHT' => "Prime",
+            'STANDARD_OVERNIGHT' => "Fast",
+            'FEDEX_2_DAY' => "Usual"
+        ]
     ],
+    // ... mappings for other couriers
 
 ];

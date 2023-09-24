@@ -24,6 +24,7 @@ class ShipmentRequest extends FormRequest
             'shipments.*.package.height' => 'required|numeric',
             'shipments.*.package.width' => 'required|numeric',
             'shipments.*.package.length' => 'required|numeric',
+            'shipments.*.order_id' => 'required',
             'shipments.*.package.weight' => 'required|numeric',
             'shipments.*.package.description' => 'nullable|string|max:1000',
             'shipments.*.delivery_type' => 'required|string|max:30',

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\ShipmentService;
 
 use App\Models\CourierRoute;
 use App\Models\RetailerCourierCredentials;
@@ -8,16 +8,14 @@ use App\Models\RetailerCourierCredentials;
 use App\Models\Courier;
 use App\Models\DeliveryType;
 use App\Models\Retailer;
-use App\Models\Package;
 use App\Models\Pricing;
 use App\Models\Shipment;
-use App\Models\RetailerCourierCredential;
 use App\Services\Shipments\ShipmentService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
-class ShipmentServiceTest extends TestCase
+class CreateBulkShipmentsTest extends TestCase
 {
     use RefreshDatabase;
     protected ShipmentService $shipmentService;

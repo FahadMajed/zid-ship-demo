@@ -2,9 +2,8 @@
 
 namespace App\Services\Couriers\Integrations;
 
-use App\Http\Requests\ShipmentRequest;
-use App\Models\Shipment;
 use App\Services\Couriers\Contracts\Courier;
+use Illuminate\Support\Facades\Config;
 use CreateShipmentDto;
 use Illuminate\Support\Facades\Http;
 
@@ -16,39 +15,8 @@ class FedEx extends Courier
     {
         $this->baseUrl = $baseUrl;
     }
-    public function createShipment(\CreateShipmentDto $dto)
+    public function createShipment(CreateShipmentDto $dto)
     {
-        //   SERVICE TYPE:      PRIORITY_OVERNIGHT
-        // FedEx Standard Overnight®
-        // 	STANDARD_OVERNIGHT
-        // FedEx 2Day®
-        // 	FEDEX_2_DAY
-
-        //PACKAGE TYPE: YOUR_PACKAGING
-
-        //PICK UP TYPE: REGULAR_STOP
-
-        //PAYMENT TYPE: {
-        //    SENDER, payor.responsibleParty.accountNumber
-        //  }
-
-        //LABEL: {
-        //labelFormatType: "COMMON2D"
-        //LABEL STOCK TYPE: PAPER_4x6;
-        //IMAGE TYPE: PDF
-        //
-        //}
-
-        //rateRequestType: {
-        //    ["ACCOUNT"]
-        //}
-
-        //preferredCurrency: SAR
-
-        // totalPackageCount receipts.length
-        //labelResponseOptions: URL_ONLY
-        //accountNumber: NUMBER
-        //shipAction: CONFIRM
 
         $endpoint = $this->baseUrl + 'ship/v1/shipments';
 
@@ -101,8 +69,8 @@ class FedEx extends Courier
                         ],
                     ]
                 ],
-                //TODO DELIVERY TYPE MAPPING
-                'serviceType' => "STANDARD_OVERNIGHT",
+
+                'serviceType' => Config::get("fedex.delivery_type_mappings.$dto->deliveryTypeName"),
                 'packagingType' => 'FEDEX_PAK',
                 'pickupType' => 'REGULAR_STOP',
                 'shippingChargesPayment' => [
@@ -133,14 +101,14 @@ class FedEx extends Courier
                 ],
                 "rateRequestType" => ['ACCOUNT'],
                 'preferredCurrency' => "SAR",
-
-
             ]
 
 
 
         ]);
-        //TODO, DO THE MAPPING
+
+
+        //TODO RETURN WAYBILL URL, LABEL URL, AND TRACKING NUMBER
         return $response['output']['completeTrackResults']["trackResults"]["latestStatusDetail"]["description"];
     }
 

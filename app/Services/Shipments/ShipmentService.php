@@ -76,4 +76,21 @@ class ShipmentService
 
         return $shipments;
     }
+
+    public function  updateShipmentStatus($shipmentId, $updatedStatus, $orderId): void
+    {
+        //TODO PUBLISH THE EVENT USING A MESSAGE BROKER USING THE ORDER ID AND THE STATUS
+
+        $this->shipmentsRepository->updateShipmentStatus($shipmentId, $updatedStatus);
+    }
+
+    public function getStatusFor($shipmentId)
+    {
+        return $this->shipmentsRepository->getStatus($shipmentId);
+    }
+
+    public function getShipment($shipmentId)
+    {
+        return $this->shipmentsRepository->getShipment($shipmentId);
+    }
 }

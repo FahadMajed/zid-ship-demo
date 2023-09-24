@@ -39,22 +39,40 @@ class ShipmentsRepository
         $shipment->save();
     }
 
-    public function getShipment($id)
-    {
-        $shipment = Shipment::findOrFail($id);
 
-        return $shipment;
-    }
 
     public function getWaybill($id)
     {
         $shipment = $this->getShipment($id);
+
         return $shipment->waybill_url;
     }
+
+
+    public function getStatus($id)
+    {
+        $shipment = $this->getShipment($id);
+
+        return $shipment->status;
+    }
+
+    public function updateShipmentStatus($shipmentId, $updatedStatus)
+    {
+        Shipment::query()->where('id', $shipmentId)->update(['status' => $updatedStatus]);
+    }
+
+
 
     public function markAsFailed(Shipment $shipment)
     {
         $shipment->status = 'Failed';
         $shipment->save();
+    }
+
+    public function getShipment($id)
+    {
+        $shipment = Shipment::findOrFail($id);
+
+        return $shipment;
     }
 }
