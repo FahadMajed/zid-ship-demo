@@ -7,7 +7,7 @@ use App\Models\Shipment;
 
 class ShipmentsRepository
 {
-    public function createPendingShipment($customer, $packageId, $retailerId, $courierId, $deliveryTypeId, $routeId, $price): Shipment
+    public function createPendingShipment($customer, $packageId, $retailerId, $courierId, $deliveryTypeId, $routeId, $price, $orderId): Shipment
     {
 
         $shipment = Shipment::create([
@@ -23,6 +23,7 @@ class ShipmentsRepository
             'customer_city' => $customer['city'],
             'customer_email' => $customer['email'],
             'customer_address' => $customer['address'],
+            'order_id' => $orderId
         ]);
 
         $shipment->load('courier', 'courierRoute', 'deliveryType', 'retailer', 'package');

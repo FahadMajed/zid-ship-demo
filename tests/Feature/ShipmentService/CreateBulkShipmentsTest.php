@@ -73,6 +73,7 @@ class CreateBulkShipmentsTest extends TestCase
                     'weight' => 5,
                     'description' => 'Test package'
                 ],
+                'order_id' => 1,
                 'delivery_type' => 'Prime'
             ],
 
@@ -134,6 +135,7 @@ class CreateBulkShipmentsTest extends TestCase
                     'city' => "riyadh",
                     'address' => "malqa",
                     'email' => "Fahad@majed.com",
+                    'order_id' => 1,
                 ],
                 'package' => [
                     'height' => 10,
@@ -142,7 +144,8 @@ class CreateBulkShipmentsTest extends TestCase
                     'weight' => 5,
                     'description' => 'Test package'
                 ],
-                'delivery_type' => 'Prime'
+                'delivery_type' => 'Prime',
+                'order_id' => 1,
             ],
             // Second shipment data
             [
@@ -160,7 +163,8 @@ class CreateBulkShipmentsTest extends TestCase
                     'weight' => 7,
                     'description' => 'Another test package'
                 ],
-                'delivery_type' => 'Prime'
+                'delivery_type' => 'Prime',
+                'order_id' => 1,
             ],
         ];
 
@@ -233,6 +237,7 @@ class CreateBulkShipmentsTest extends TestCase
                     'weight' => 5,
                     'description' => 'Test package'
                 ],
+                'order_id' => 1,
                 'delivery_type' => 'Prime'
             ],
         ];
@@ -293,6 +298,7 @@ class CreateBulkShipmentsTest extends TestCase
                     'weight' => 5,
                     'description' => 'Test package'
                 ],
+                'order_id' => 1,
                 'delivery_type' => 'Prime'
             ],
         ];
@@ -330,6 +336,7 @@ class CreateBulkShipmentsTest extends TestCase
                     'weight' => 5,
                     'description' => 'Test package'
                 ],
+                'order_id' => 1,
                 'delivery_type' => 'Prime'
             ],
         ];

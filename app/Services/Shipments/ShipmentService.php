@@ -60,7 +60,7 @@ class ShipmentService
 
                 $priceResult = $this->pricingsRepository->getPriceForRoute($courierResult['route_id'], $shipmentData['delivery_type']);
 
-                $shipment = $this->shipmentsRepository->createPendingShipment($customer, $package->id, $retailer->id, $courierResult['courier']->id, $courierResult['route_id'], $priceResult['delivery_type_id'], $priceResult['price'],);
+                $shipment = $this->shipmentsRepository->createPendingShipment($customer, $package->id, $retailer->id, $courierResult['courier']->id, $courierResult['route_id'], $priceResult['delivery_type_id'], $priceResult['price'], $shipmentData['order_id']);
 
                 $retailerCredentials = $this->retailersRepository->getCredentialsForCourier($retailer->id, $shipment->courier_id);
 

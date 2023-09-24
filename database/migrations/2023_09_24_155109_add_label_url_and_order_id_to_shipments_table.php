@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('shipments', function (Blueprint $table) {
-            $table->string('label_url')->nullable(); // Assuming label_url is a nullable string
-            $table->unsignedBigInteger('order_id');  // Assuming order_id is an unsigned big integer
+            $table->string('label_url')->nullable();
+            $table->unsignedBigInteger('order_id');
         });
     }
 
