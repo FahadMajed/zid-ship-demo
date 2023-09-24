@@ -112,25 +112,10 @@ class FedEx extends Courier
         return $response['output']['completeTrackResults']["trackResults"]["latestStatusDetail"]["description"];
     }
 
-    public function cancelShipment($shipmentRequest)
+    public function cancelShipment($trackingNumber)
     {
-    }
-    public function trackShipment($tackingNumber)
-    {
-        $endpoint = $this->baseUrl + 'track/v1/trackingnumbers';
+        //SIMILAR TO CREATING (FOR FINDING THE CONFIG)
 
-        $response = Http::withHeaders($this->headers)->post($endpoint, [
-            'includeDetailedScans' => false,
-
-
-
-            'trackingNumberInfo' => [
-                'trackingNumber' => $tackingNumber,
-            ],
-
-
-        ]);
-        //TODO, DO THE MAPPING
-        return $response['output']['completeTrackResults']["trackResults"]["latestStatusDetail"]["description"];
+        return ["cancelled" => true, "message" => 'Success'];
     }
 }

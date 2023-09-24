@@ -11,6 +11,5 @@ abstract class Courier
     protected $headers;
 
     public abstract function createShipment(CreateShipmentDto $dto);
-    public abstract function cancelShipment($dto);
-    public abstract function trackShipment($dto);
+    public abstract function cancelShipment($trackingNumber);
 }

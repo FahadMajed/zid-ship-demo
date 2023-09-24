@@ -46,4 +46,11 @@ class CouriersRepository
         $courier->decrement('current_usage');
         $courier->save();
     }
+
+    public function courierSupportsCancellations($courierId)
+    {
+        $courier =   Courier::findOrFail($courierId);
+
+        return $courier->supports_cancellation;
+    }
 }

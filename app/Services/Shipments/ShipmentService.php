@@ -2,6 +2,7 @@
 
 namespace App\Services\Shipments;
 
+use App\Exceptions\CourierDisallowedCancellation;
 use App\Exceptions\NoAvailableCourierException;
 use App\Exceptions\RetailerNotFoundException;
 use App\Jobs\ProcessShipmentJob;
@@ -10,6 +11,8 @@ use App\Repositories\ShipmentsRepository;
 use App\Repositories\RetailersRepository;
 use App\Repositories\PackagesRepository;
 use App\Repositories\PricingsRepository;
+use App\Services\Couriers\Factory\CourierFactory;
+use GuzzleHttp\Promise\CancellationException;
 use Illuminate\Support\Facades\Log;
 
 class ShipmentService
@@ -92,5 +95,26 @@ class ShipmentService
     public function getShipment($shipmentId)
     {
         return $this->shipmentsRepository->getShipment($shipmentId);
+    }
+
+    public function cancelShipment($shipmentId)
+    {
+        $shipment = $this->shipmentsRepository->getShipment($shipmentId);
+
+        $courierSupportsCancellations = $this->couriersRepository->courierSupportsCancellations($shipment->courier_id);
+
+        if ($courierSupportsCancellations == false) {
+            throw new CourierDisallowedCancellation();
+        }
+
+        $courierService = CourierFactory::create($shipment->courier->name);
+
+        $result =  $courierService->cancelShipment($shipment->tracking_number);
+
+        if ($result['cancelled'] == true) {
+            $this->shipmentsRepository->updateShipmentStatus($shipmentId, 'Cancelled');
+        } else {
+            throw new CancellationException($result['message']);
+        }
     }
 }
