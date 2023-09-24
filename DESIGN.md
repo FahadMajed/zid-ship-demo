@@ -14,6 +14,9 @@ Given the context of ZidShip, which I assume, handles a decent volume of shipmen
 
 - **Complex Queries**: As the system grows, there might be a need for complex queries, like "Find all shipments from a particular retailer, handled by a specific courier, that were delayed." RDBMSs excel in such complex, multi-table queries, providing fast and consistent results.
 
+**Trade-offs**: While relational databases are powerful and reliable, they might not scale horizontally as easily as NoSQL databases. However, for the current scope and scale of the ZidShip system, the benefits of data integrity and structured relationships outweigh the potential scaling concerns.
+
+
 ### Why not NoSQL (e.g., MongoDB)?
 
 While NoSQL databases like MongoDB offer flexibility in data modeling and can handle large volumes of data, there are specific reasons why it might not be the best fit for ZidShip:
