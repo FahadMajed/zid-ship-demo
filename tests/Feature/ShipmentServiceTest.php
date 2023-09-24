@@ -307,4 +307,41 @@ class ShipmentServiceTest extends TestCase
         $this->assertNull($createdShipments[0]['data']); // The shipment data should be null since the shipment couldn't be created.
         $this->assertEquals("No available courier for shipment data: " . json_encode($shipmentsData[0]), $createdShipments[0]['error']); // We expect an error message indicating no available courier due to capacity being exceeded.
     }
+
+    /** @test */
+    public function it_cannot_create_a_shipment_with_missing_retailer()
+    {
+        // Arrange
+        $retailerName = 'Missing Retailer';
+
+        $courier = Courier::factory()->create();
+
+        $shipmentsData = [
+            [
+                'customer' => [
+                    'name' => "Fahad",
+                    'phone' => '599333983',
+                    'city' => "riyadh",
+                    'address' => "malqa",
+                    'email' => "Fahad@majed.com",
+                ],
+                'package' => [
+                    'height' => 10,
+                    'width' => 10,
+                    'length' => 10,
+                    'weight' => 5,
+                    'description' => 'Test package'
+                ],
+                'delivery_type' => 'Prime'
+            ],
+        ];
+
+        // Act
+        $createdShipments = $this->shipmentService->createBulkShipment($shipmentsData, $retailerName);
+
+        // Assert further that no shipments were created
+        $this->assertCount(1, $createdShipments); // We expect one result since we're trying to create one shipment.
+        $this->assertNull($createdShipments[0]['data']); // The shipment data should be null since the shipment couldn't be created.
+        $this->assertEquals("Retailer not found for shipment data: " . json_encode($shipmentsData[0]), $createdShipments[0]['error']);
+    }
 }

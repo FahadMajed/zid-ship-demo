@@ -13,10 +13,6 @@ class RetailersRepository
 
         $retailer = Retailer::where('id', $retailerId)->first();
 
-        if (!$retailer) {
-            throw new RetailerNotFoundException();
-        }
-
         return RetailerCourierCredentials::where('retailer_id', $retailer->id)
             ->where('courier_id', $courierId)
             ->first();
@@ -27,6 +23,9 @@ class RetailersRepository
 
         $retailer = Retailer::where('name', $retailerName)->first();
 
+        if (!$retailer) {
+            throw new RetailerNotFoundException();
+        }
 
         return $retailer;
     }
