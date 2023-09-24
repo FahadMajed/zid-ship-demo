@@ -14,9 +14,9 @@ class CourierSeeder extends Seeder
     {
         DB::table('couriers')->insert([
             'name' => fake()->unique()->company(),
-            'max_capacity' => fake()->randomNumber(3),
+            'max_capacity' => 100,
             'supports_cancellation' => fake()->boolean,
-            'current_usage' => fake()->randomNumber(2),
+            'current_usage' => 0,
         ]);
     }
 }

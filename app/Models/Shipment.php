@@ -17,7 +17,6 @@ class Shipment extends Model
         'courier_route_id',
         'delivery_type_id',
         'waybill_url',
-        //TODO MIGRATE
         'label_url',
         'order_id',
         'tracking_number',

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +14,7 @@ class CourierRouteSeeder extends Seeder
     public function run(): void
     {
         DB::table('courier_routes')->insert([
-            'courier_id' => 1, // Assuming you have a courier with ID 1
+            'courier_id' => 2, // Assuming you have a courier with ID 1
             'origin' => fake()->city,
             'destination' => fake()->city,
         ]);
