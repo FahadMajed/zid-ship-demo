@@ -25,6 +25,8 @@ class RetailersRepository
     {
 
         $retailer = Retailer::where('name', $retailerName)->first();
+
+
         return $retailer;
     }
 }

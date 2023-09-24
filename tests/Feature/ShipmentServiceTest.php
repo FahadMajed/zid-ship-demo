@@ -20,7 +20,7 @@ use Tests\TestCase;
 class ShipmentServiceTest extends TestCase
 {
     use RefreshDatabase;
-    protected $shipmentService;
+    protected ShipmentService $shipmentService;
     protected function setUp(): void
     {
         parent::setUp();
