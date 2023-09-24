@@ -30,11 +30,12 @@ class ShipmentsRepository
         return $shipment;
     }
 
-    public function confirm($shipment, $trackingNumber, $waybillUrl)
+    public function confirm($shipment, $trackingNumber, $waybillUrl, $labelUrl)
     {
         $shipment->status = 'Confirmed';
         $shipment->tracking_number = $trackingNumber;
         $shipment->waybill_url = $waybillUrl;
+        $shipment->label_url = $labelUrl;
 
         $shipment->save();
     }

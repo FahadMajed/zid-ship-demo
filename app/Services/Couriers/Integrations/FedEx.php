@@ -70,7 +70,7 @@ class FedEx extends Courier
                     ]
                 ],
 
-                'serviceType' => Config::get("fedex.delivery_type_mappings.$dto->deliveryTypeName"),
+                'serviceType' => Config::get("fedex.delivery_type_mappings$dto->deliveryTypeName"),
                 'packagingType' => 'FEDEX_PAK',
                 'pickupType' => 'REGULAR_STOP',
                 'shippingChargesPayment' => [
@@ -108,14 +108,37 @@ class FedEx extends Courier
         ]);
 
 
-        //TODO RETURN WAYBILL URL, LABEL URL, AND TRACKING NUMBER
-        return $response['output']['completeTrackResults']["trackResults"]["latestStatusDetail"]["description"];
+        $shipmentDocs = $response['output']['transactionShipments'][0]["shipmentDocuments"];
+        return [
+            "tracking_number" => $shipmentDocs['trackingNumber'],
+            'waybill_url' => $shipmentDocs['url'],
+            'label_url' => $shipmentDocs['url'],
+        ];
     }
 
     public function cancelShipment($trackingNumber)
     {
+        $endpoint = $this->baseUrl + 'ship/v1/cancel';
         //SIMILAR TO CREATING (FOR FINDING THE CONFIG)
 
         return ["cancelled" => true, "message" => 'Success'];
+    }
+    public function trackShipment($tackingNumber)
+    {
+        $endpoint = $this->baseUrl + 'track/v1/trackingnumbers';
+
+        $response = Http::withHeaders($this->headers)->post($endpoint, [
+            'includeDetailedScans' => false,
+
+
+
+            'trackingNumberInfo' => [
+                'trackingNumber' => $tackingNumber,
+            ],
+
+
+        ]);
+        //TODO, DO THE MAPPING
+        return $response['output']['completeTrackResults']["trackResults"]["latestStatusDetail"]["description"];
     }
 }

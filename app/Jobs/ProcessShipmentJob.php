@@ -42,6 +42,7 @@ class ProcessShipmentJob implements ShouldQueue
             $this->shipment,
             $courierResponse['tracking_number'],
             $courierResponse['waybill_url'],
+            $courierResponse['label_url'],
         );
     }
 
@@ -50,5 +51,7 @@ class ProcessShipmentJob implements ShouldQueue
         // Handle the job failure, add logs and ...
         $couriersRepository->decrementUsageFor($this->shipment->courier);
         $shipmentsRepository->markAsFailed($this->shipment);
+        //LOG
+        //PUBLISH EVENT
     }
 }

@@ -7,6 +7,7 @@ return [
         'status_mappings' => [
             'picked up' => 'In Transit',
             'on truck for delivery' => 'Out for Delivery',
+            'shipped' => 'Shipped',
             'delivered' => 'Delivered',
         ],
         'delivery_type_mappings' => [

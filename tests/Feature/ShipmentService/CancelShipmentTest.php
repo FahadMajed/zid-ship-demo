@@ -69,14 +69,11 @@ class CancelShipmentTest extends TestCase
 
         $shipment = Shipment::factory()->create();
 
-
-
         $mockCourier = $this->createMock(\App\Services\Couriers\Contracts\Courier::class);
         $mockCourier->method('cancelShipment')->willReturn(['cancelled' => true]);
 
         $mockCourierFactory = $this->createMock(CourierFactory::class);
         $mockCourierFactory->method('create')->willReturn($mockCourier);
-
 
         $this->shipmentService = new ShipmentService(
             app(ShipmentsRepository::class),
@@ -93,5 +90,36 @@ class CancelShipmentTest extends TestCase
         // Assert
         $cancelledShipment = Shipment::find($shipment->id);
         $this->assertEquals('Cancelled', $cancelledShipment->status);
+    }
+
+    public function it_cannot_cancel_a_shipment_with_a_courier_that_does_not_support_cancellations()
+    {
+        // Arrange
+        $courier = Courier::factory()->create(['name' => 'NoCancelCourier', 'supports_cancellation' => false]);
+        $retailerName = 'Test Retailer';
+
+        $retailer = Retailer::factory()->create(['city' => "riyadh", 'name' => $retailerName]);
+
+        RetailerCourierCredentials::factory()->create([
+            'retailer_id' => $retailer->id,
+            'courier_id' => $courier->id
+        ]);
+
+        CourierRoute::factory()->create([
+            'courier_id' => $courier->id,
+            'origin' => $retailer->city,
+            'destination' => $retailer->city
+        ]);
+
+        DeliveryType::factory()->create(['name' => "Prime"]);
+        Pricing::factory()->create(['courier_route_id' => 1, 'delivery_type_id' => 1, 'price' => 25]);
+        Package::factory()->create([]);
+        $shipment = Shipment::factory()->create();
+
+        // Assert
+        $this->expectException(CourierDisallowedCancellation::class);
+
+        // Act
+        $this->shipmentService->cancelShipment($shipment->id);
     }
 }
