@@ -19,5 +19,5 @@ Ensure essential functions such as:
 
 - [Design Document](./DESIGN.md)
 - [API Documentation](./API_DOCS.md)
-- [Database Schema](./DATABASE_SCHEMA.md)
+- [Database](./DATABASE.md)
 - [Testing Strategy](./TESTING_STRATEGY.md)
