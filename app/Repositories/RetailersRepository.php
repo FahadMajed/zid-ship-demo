@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\RetailerNotFoundException;
 use App\Models\Retailer;
 use App\Models\RetailerCourierCredentials;
 
@@ -13,7 +14,7 @@ class RetailersRepository
         $retailer = Retailer::where('id', $retailerId)->first();
 
         if (!$retailer) {
-            return null;
+            throw new RetailerNotFoundException();
         }
 
         return RetailerCourierCredentials::where('retailer_id', $retailer->id)

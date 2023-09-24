@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\NoAvailableCourierException;
 use App\Models\Courier;
 use App\Models\Package;
 
@@ -20,6 +21,10 @@ class CouriersRepository
                 ->where('destination', $destination);
         })->whereColumn('max_capacity', '>', 'current_usage')
             ->first();
+
+        if (!$courier) {
+            throw new NoAvailableCourierException();
+        }
 
         $route = $courier->routes->first();
 

@@ -69,7 +69,7 @@ class ShipmentService
             }
 
             $shipments[] = [
-                'data' => ['shipment_id' => $shipment->id, 'status' => $shipment->status],
+                'data' => $shipment != null ? ['shipment_id' => $shipment->id, 'status' => $shipment->status] : null,
                 'error' => $error
             ];
         }
